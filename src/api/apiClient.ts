@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 // ══════════════════════════════════════════════════════════════════════════════
 // YELLOW layer — API client
 // Single fetch wrapper used by all API functions.

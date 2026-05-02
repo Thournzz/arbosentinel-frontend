@@ -125,24 +125,31 @@ function mapDisease(dto: ApiDiseaseDto): Disease {
 }
 
 function mapAlert(dto: ApiAlertDto): MrProgAlert {
-  const status = dto.alertStatus?.toLowerCase() as MrProgAlert['alertStatus']
-  // Derive severity from status label
+  // Use raw string from API for severity derivation (can be any value from backend)
+  const rawStatus = (dto.alertStatus ?? '').toLowerCase()
+
+  // Derive severity from the raw status string
   const severity: RiskLevel =
-    status === 'critical' ? 'critical'
-    : status === 'high'   ? 'high'
-    : status === 'active' ? 'moderate'
+    rawStatus === 'critical' ? 'critical'
+    : rawStatus === 'high'   ? 'high'
+    : rawStatus === 'active' ? 'moderate'
     : 'low'
+
+  // Map raw status to our union type, defaulting to 'active' for unknown values
+  const validStatuses: MrProgAlert['alertStatus'][] = ['active', 'resolved', 'archived']
+  const alertStatus: MrProgAlert['alertStatus'] =
+    validStatuses.includes(rawStatus as MrProgAlert['alertStatus'])
+      ? (rawStatus as MrProgAlert['alertStatus'])
+      : 'active'
 
   return {
     id:          dto.id,
     diseaseType: dto.diseaseType ?? null,
     alertTitle:  dto.alertMessage?.slice(0, 60) ?? 'System Alert',
     alertBody:   dto.alertMessage ?? '',
-    alertStatus: (['active', 'resolved', 'archived'].includes(status)
-                   ? status
-                   : 'active') as MrProgAlert['alertStatus'],
+    alertStatus,
     severity,
-    isActive:    dto.alertStatus === 'active',
+    isActive:    rawStatus === 'active',
     triggeredAt: dto.triggeredAt ?? new Date().toISOString(),
   }
 }
@@ -204,8 +211,11 @@ export async function fetchAlerts(): Promise<MrProgAlert[]> {
   return dtos.map(mapAlert)
 }
 
+// Raw shape returned by GET /api/pharmacology/drugs
+type RawDrugDto = Parameters<typeof mapDrug>[0]
+
 /** GET /api/pharmacology/drugs — all drugs with full clinical detail */
 export async function fetchDrugs(): Promise<ApiPharmDrug[]> {
-  const dtos = await apiFetch<typeof dtos>('/api/pharmacology/drugs')
-  return (dtos as Parameters<typeof mapDrug>[0][]).map(mapDrug)
+  const dtos = await apiFetch<RawDrugDto[]>('/api/pharmacology/drugs')
+  return dtos.map(mapDrug)
 }
