@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    // ── Language & environment ─────────────────────────────────────────────
+    "target": "ES2020",          // Compile to modern JS — supported by all evergreen browsers
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],  // DOM = browser APIs; DOM.Iterable = forEach on NodeLists
+    "module": "ESNext",          // Use ES modules (import/export) instead of CommonJS (require)
+    "moduleResolution": "bundler", // Vite uses bundler resolution — resolves node_modules correctly
+
+    // ── JSX ───────────────────────────────────────────────────────────────
+    "jsx": "react-jsx",          // New JSX transform — no need to import React in every .tsx file
+
+    // ── Type checking strictness ───────────────────────────────────────────
+    "strict": true,              // Enables all strict checks: noImplicitAny, strictNullChecks, etc.
+    "noUnusedLocals": true,      // Warn if you declare a variable you never use
+    "noUnusedParameters": true,  // Same for function parameters — keeps code clean
+    "noFallthroughCasesInSwitch": true,
+
+    // ── Output ────────────────────────────────────────────────────────────
+    "noEmit": true,              // TypeScript only TYPE-checks; Vite does the actual build
+    "skipLibCheck": true         // Skip type-checking inside node_modules (faster builds)
+  },
+  "include": ["src"]  // Only type-check files inside src/
+}

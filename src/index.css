@@ -1,0 +1,261 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   ArboSentinel — Global CSS
+   Aesthetic: MMBN3 Virus Breeder (deep void, cyan data-streams, molecular atoms)
+
+   LEARNING NOTE:
+   CSS Custom Properties (variables) defined on :root are globally accessible.
+   Use var(--name) anywhere in the stylesheet or component inline styles.
+   This is how we maintain a consistent design system without a framework.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── CSS Variables (design tokens) ──────────────────────────────────────── */
+:root {
+  /* Core palette — MMBN3 void aesthetic */
+  --void:          #050510;   /* Deep space black — main background */
+  --void-mid:      #0a0a1f;   /* Panel backgrounds */
+  --void-surface:  #0f1030;   /* Cards / elevated surfaces */
+
+  /* Accent colors — data-stream neons */
+  --cyber-cyan:    #00e5ff;   /* Primary accent — headings, borders, highlights */
+  --teal-pulse:    #00bfa5;   /* Secondary accent — labels, secondary actions */
+  --purple-vibe:   #7b2fff;   /* Tertiary — ML predictions, AI-related elements */
+
+  /* Risk level palette (maps to SeverityLevel enum) */
+  --risk-low:      #00e676;   /* Clear / safe — green */
+  --risk-moderate: #ffea00;   /* Moderate — yellow */
+  --risk-high:     #ff6d00;   /* High — orange */
+  --risk-critical: #ff1744;   /* Critical — red */
+
+  /* Text */
+  --text-primary:  #e0f7fa;   /* Main readable text — slightly cyan-tinted white */
+  --text-secondary:#80cbc4;   /* Secondary / muted text */
+  --text-dim:      #4a5568;   /* Disabled / very muted */
+
+  /* Glow effects — make elements feel like they're emitting light */
+  --glow-cyan:     0 0 12px rgba(0, 229, 255, 0.4), 0 0 24px rgba(0, 229, 255, 0.15);
+  --glow-teal:     0 0 8px  rgba(0, 191, 165, 0.35);
+  --glow-purple:   0 0 12px rgba(123, 47, 255, 0.4);
+
+  /* Border */
+  --border-dim:    rgba(0, 229, 255, 0.15);
+  --border-bright: rgba(0, 229, 255, 0.5);
+
+  /* Spacing scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  /* Typography */
+  --font-display: 'Orbitron', sans-serif;     /* Headings, titles — futuristic */
+  --font-mono:    'Share Tech Mono', monospace; /* Numbers, data, codes */
+  --font-body:    'Inter', sans-serif;          /* Paragraphs, labels */
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+/* ── Reset & base ────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;  /* padding/border included in width — prevents overflow surprises */
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--void);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+
+  /* Subtle scanline texture — reinforces the retro terminal feel */
+  background-image:
+    linear-gradient(
+      rgba(0, 229, 255, 0.02) 1px,
+      transparent 1px
+    );
+  background-size: 100% 4px;
+}
+
+/* ── Typography ─────────────────────────────────────────────────────────── */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--cyber-cyan);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--teal-pulse);
+  letter-spacing: 0.03em;
+}
+
+/* ── Scrollbar styling — keeps the void aesthetic in Chromium ────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb {
+  background: var(--border-bright);
+  border-radius: 3px;
+}
+
+/* ── Layout containers ───────────────────────────────────────────────────── */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.page-content {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-2xl);
+}
+
+/* ── Panel (card surface) ────────────────────────────────────────────────── */
+.panel {
+  background: var(--void-surface);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+
+  /* Subtle inner glow on top edge — like a CRT phosphor screen */
+  box-shadow: inset 0 1px 0 rgba(0, 229, 255, 0.1),
+              0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.panel:hover {
+  border-color: var(--border-bright);
+  box-shadow: var(--glow-cyan),
+              inset 0 1px 0 rgba(0, 229, 255, 0.1),
+              0 4px 24px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* ── Utility classes ─────────────────────────────────────────────────────── */
+.text-cyan    { color: var(--cyber-cyan); }
+.text-teal    { color: var(--teal-pulse); }
+.text-purple  { color: var(--purple-vibe); }
+.text-mono    { font-family: var(--font-mono); }
+.text-dim     { color: var(--text-secondary); }
+
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); }
+
+@media (max-width: 900px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* ── Molecular Atom animation ────────────────────────────────────────────── */
+/* Used in NavBar logo and decorative elements.
+   @keyframes defines a named animation loop.
+   The `orbit-N` names allow different speeds / radii per electron. */
+@keyframes orbit-1 {
+  from { transform: rotate(0deg)   translateX(14px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(14px) rotate(-360deg); }
+}
+@keyframes orbit-2 {
+  from { transform: rotate(60deg)  translateX(10px) rotate(-60deg); }
+  to   { transform: rotate(420deg) translateX(10px) rotate(-420deg); }
+}
+@keyframes orbit-3 {
+  from { transform: rotate(120deg) translateX(18px) rotate(-120deg); }
+  to   { transform: rotate(480deg) translateX(18px) rotate(-480deg); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.08); box-shadow: var(--glow-cyan); }
+}
+@keyframes data-stream {
+  0%   { opacity: 0;   transform: translateY(-8px); }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0;   transform: translateY(8px); }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes scan-line {
+  0%   { top: -2px; }
+  100% { top: 100%; }
+}
+
+.animate-fade-up   { animation: fade-up 0.5s ease forwards; }
+.animate-slide-in  { animation: slide-in-right 0.4s ease forwards; }
+
+/* ── Risk badge base ────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.badge-low      { background: rgba(0, 230, 118, 0.15);  color: var(--risk-low);      border: 1px solid var(--risk-low); }
+.badge-moderate { background: rgba(255, 234, 0, 0.12);  color: var(--risk-moderate); border: 1px solid var(--risk-moderate); }
+.badge-high     { background: rgba(255, 109, 0, 0.15);  color: var(--risk-high);     border: 1px solid var(--risk-high); }
+.badge-critical { background: rgba(255, 23, 68, 0.15);  color: var(--risk-critical); border: 1px solid var(--risk-critical); }
+
+/* ── Button styles ──────────────────────────────────────────────────────── */
+.btn-primary {
+  background: transparent;
+  border: 1px solid var(--cyber-cyan);
+  color: var(--cyber-cyan);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover {
+  background: rgba(0, 229, 255, 0.1);
+  box-shadow: var(--glow-cyan);
+}
+
+/* ── Divider ────────────────────────────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-dim);
+  margin: var(--space-lg) 0;
+}
+
+/* ── Section label ──────────────────────────────────────────────────────── */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
