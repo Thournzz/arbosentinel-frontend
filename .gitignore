@@ -1,1 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Vercel
 .vercel
+
+# Local env overrides (secrets) — .env.production is safe to commit (no secrets)
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
