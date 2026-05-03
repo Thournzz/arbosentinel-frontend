@@ -4,6 +4,7 @@
 // ══════════════════════════════════════════════════════════════════════════════
 
 import React from 'react'
+import DisclaimerBanner from '../components/standard/DisclaimerBanner'
 
 const AboutPage: React.FC = () => {
   return (
@@ -182,6 +183,9 @@ const AboutPage: React.FC = () => {
           </span>
         </p>
       </div>
+
+      {/* Platform scope disclaimer */}
+      <DisclaimerBanner variant="general" />
 
     </div>
   )

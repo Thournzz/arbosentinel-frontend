@@ -18,6 +18,7 @@
 
 import React, { useState } from 'react'
 import DiseaseTag from '../components/standard/DiseaseTag'
+import DisclaimerBanner from '../components/standard/DisclaimerBanner'
 import { mockDengueWeekly } from '../api/mockData'
 
 // ── Mini SVG bar chart ────────────────────────────────────────────────────────
@@ -187,6 +188,9 @@ const DenguePage: React.FC = () => {
         </p>
         <BarChart data={sjData} color="rgba(255, 109, 0, 0.8)" />
       </section>
+
+      {/* Predictive disclaimer — required before ML outputs */}
+      <DisclaimerBanner variant="predictive" />
 
       {/* ML Prediction form */}
       <section className="panel">

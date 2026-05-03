@@ -16,6 +16,7 @@
 import React, { useEffect, useState } from 'react'
 import DiseaseTag from '../components/standard/DiseaseTag'
 import LoadingSpinner from '../components/standard/LoadingSpinner'
+import DisclaimerBanner from '../components/standard/DisclaimerBanner'
 import { fetchDrugs } from '../api/arboApi'
 import type { ApiPharmDrug } from '../api/arboApi'
 import { mockDrugs } from '../api/mockData'
@@ -60,7 +61,7 @@ const PharmacologyPage: React.FC = () => {
     <div className="container page-content animate-fade-up">
 
       {/* Header */}
-      <div style={{ marginBottom: 'var(--space-xl)' }}>
+      <div style={{ marginBottom: 'var(--space-lg)' }}>
         <p className="section-label">PHARMACOLOGICAL INTELLIGENCE — ARBOVIRAL THERAPEUTICS</p>
         <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>
           Treatment & Drug Database
@@ -71,6 +72,9 @@ const PharmacologyPage: React.FC = () => {
           Mechanism of action annotations provided for clinical reference.
         </p>
       </div>
+
+      {/* Clinical disclaimer — required wherever dosing/interactions are shown */}
+      <DisclaimerBanner variant="clinical" />
 
       {/* Filter bar */}
       <div
