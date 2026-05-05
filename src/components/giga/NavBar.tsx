@@ -23,6 +23,7 @@ const NAV_LINKS = [
   { id: 'surveillance',  label: 'SURVEILLANCE',  icon: '📡' },
   { id: 'pathogens',     label: 'PATHOGENS',      icon: '🦠' },
   { id: 'dengue',        label: 'DENGUE INTEL',   icon: '📊' },
+  { id: 'westnile',      label: 'WEST NILE',      icon: '🦟' },
   { id: 'pharmacology',  label: 'PHARMACOLOGY',   icon: '💊' },
   { id: 'about',         label: 'ABOUT',          icon: '🔬' },
 ]

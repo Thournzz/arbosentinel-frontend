@@ -19,6 +19,7 @@
 import React, { useState } from 'react'
 import DiseaseTag from '../components/standard/DiseaseTag'
 import DisclaimerBanner from '../components/standard/DisclaimerBanner'
+import { fetchDenguePrediction, type MlPredictionResult } from '../api/arboApi'
 import { mockDengueWeekly } from '../api/mockData'
 
 // ── Mini SVG bar chart ────────────────────────────────────────────────────────
@@ -114,29 +115,31 @@ const DenguePage: React.FC = () => {
   const [precip,        setPrecip]       = useState(45.0)
   const [humidity,      setHumidity]     = useState(0.78)
   const [ndvi,          setNdvi]         = useState(0.42)
-  const [prediction,    setPrediction]   = useState<number | null>(null)
+  const [prediction,    setPrediction]   = useState<MlPredictionResult | null>(null)
+  const [predError,     setPredError]    = useState<string | null>(null)
   const [isLoading,     setIsLoading]    = useState(false)
 
-  // Simulate ML prediction (in real app: POST /api/ml/run/dengue)
-  const runPrediction = () => {
+  // Call Spring Boot → Python FastAPI → GradientBoostingRegressor
+  const runPrediction = async () => {
     setIsLoading(true)
     setPrediction(null)
-
-    // setTimeout simulates network latency — not needed in real async code
-    setTimeout(() => {
-      // Simple rule-based estimate for mock purposes
-      // Real app: call Spring Boot → Python FastAPI → GradientBoostingRegressor
-      const base = city === 'sj' ? 35 : 18
-      const tempEffect    = (avgTemp - 25) * 3.2
-      const precipEffect  = precip * 0.8
-      const humidEffect   = humidity * 40
-      const ndviEffect    = ndvi * 25
-      const seasonEffect  = Math.sin((weekOfYear - 10) * Math.PI / 26) * 30
-
-      const raw = Math.round(base + tempEffect + precipEffect + humidEffect + ndviEffect + seasonEffect)
-      setPrediction(Math.max(0, raw))
+    setPredError(null)
+    try {
+      const result = await fetchDenguePrediction({
+        city,
+        weekOfYear,
+        avgTempC:    avgTemp,
+        precipMm:    precip,
+        humidityPct: humidity,
+        ndviNe:      ndvi,
+      })
+      setPrediction(result)
+    } catch (err) {
+      setPredError('Prediction service unavailable — check ML microservice status.')
+      console.error('[ArboSentinel] ML prediction failed:', err)
+    } finally {
       setIsLoading(false)
-    }, 800)
+    }
   }
 
   // Prepare chart data from mock weekly stats (San Juan 2008)
@@ -296,7 +299,23 @@ const DenguePage: React.FC = () => {
           {isLoading ? '⏳ RUNNING MODEL...' : '▶ RUN PREDICTION'}
         </button>
 
-        {/* Prediction result */}
+        {/* Error state */}
+        {predError && (
+          <div style={{
+            marginTop: '1rem',
+            padding: '0.75rem 1rem',
+            background: 'rgba(204,34,34,0.08)',
+            border: '1px solid rgba(204,34,34,0.4)',
+            borderRadius: 'var(--radius-md)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.72rem',
+            color: 'var(--risk-critical)',
+          }}>
+            ✕ {predError}
+          </div>
+        )}
+
+        {/* Live ML prediction result */}
         {prediction !== null && (
           <div
             style={{
@@ -308,18 +327,39 @@ const DenguePage: React.FC = () => {
               animation: 'fade-up 0.3s ease forwards',
             }}
           >
-            <p className="section-label">PREDICTION OUTPUT</p>
+            <p className="section-label">PREDICTION OUTPUT — LIVE GBR MODEL</p>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginTop: '0.5rem' }}>
               <span className="text-mono" style={{ fontSize: '2.5rem', color: 'var(--purple-vibe)', fontWeight: 700 }}>
-                {prediction}
+                {prediction.predictedCases}
               </span>
               <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
                 predicted cases — week {weekOfYear}, {city === 'sj' ? 'San Juan' : 'Iquitos'}
               </span>
             </div>
-            <p style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-              Model: GradientBoostingRegressor (scikit-learn) trained on DengAI historical data.
-              Inputs: temp={avgTemp}°C, precip={precip}mm, humidity={(humidity*100).toFixed(0)}%, NDVI={ndvi}.
+            <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.75rem', flexWrap: 'wrap' as const }}>
+              <div>
+                <p className="section-label">Risk Score</p>
+                <p className="text-mono" style={{
+                  fontSize: '1.1rem',
+                  color: prediction.riskScore > 70 ? 'var(--risk-critical)'
+                       : prediction.riskScore > 40 ? 'var(--risk-high)'
+                       : 'var(--risk-low)',
+                }}>
+                  {Number(prediction.riskScore).toFixed(1)} / 100
+                </p>
+              </div>
+              {prediction.confidencePercent != null && (
+                <div>
+                  <p className="section-label">Confidence</p>
+                  <p className="text-mono" style={{ fontSize: '1.1rem', color: 'var(--teal-pulse)' }}>
+                    {Number(prediction.confidencePercent).toFixed(0)}%
+                  </p>
+                </div>
+              )}
+            </div>
+            <p style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '0.75rem' }}>
+              Model: {prediction.modelVersion ?? 'GradientBoostingRegressor'} · scikit-learn trained on DengAI.
+              Inputs: temp={avgTemp}°C · precip={precip}mm · humidity={(humidity*100).toFixed(0)}% · NDVI={ndvi}.
             </p>
           </div>
         )}

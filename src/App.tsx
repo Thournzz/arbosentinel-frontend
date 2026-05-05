@@ -18,12 +18,13 @@ import MrProgWidget       from './components/giga/MrProgWidget'
 import SurveillancePage   from './pages/SurveillancePage'
 import PathogenLibraryPage from './pages/PathogenLibraryPage'
 import DenguePage         from './pages/DenguePage'
+import WestNilePage       from './pages/WestNilePage'
 import PharmacologyPage   from './pages/PharmacologyPage'
 import AboutPage          from './pages/AboutPage'
 import { mockAlerts }     from './api/mockData'
 
 // Page type — string literal union for type safety
-type Page = 'surveillance' | 'pathogens' | 'dengue' | 'pharmacology' | 'about'
+type Page = 'surveillance' | 'pathogens' | 'dengue' | 'westnile' | 'pharmacology' | 'about'
 
 const App: React.FC = () => {
   // currentPage drives which component is rendered
@@ -44,6 +45,7 @@ const App: React.FC = () => {
     surveillance: <SurveillancePage />,
     pathogens:    <PathogenLibraryPage />,
     dengue:       <DenguePage />,
+    westnile:     <WestNilePage />,
     pharmacology: <PharmacologyPage />,
     about:        <AboutPage />,
   }

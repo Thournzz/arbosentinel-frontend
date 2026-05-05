@@ -13,7 +13,7 @@
 // Live counts come from the mv_disease_totals materialised view via /dashboard/stats.
 // ══════════════════════════════════════════════════════════════════════════════
 
-import { apiFetch } from './apiClient'
+import { apiFetch, apiPost } from './apiClient'
 import type {
   Disease,
   DashboardStats,
@@ -218,4 +218,63 @@ type RawDrugDto = Parameters<typeof mapDrug>[0]
 export async function fetchDrugs(): Promise<ApiPharmDrug[]> {
   const dtos = await apiFetch<RawDrugDto[]>('/api/pharmacology/drugs')
   return dtos.map(mapDrug)
+}
+
+// ── ML Prediction ─────────────────────────────────────────────────────────────
+
+export interface MlPredictionResult {
+  id:                number | null
+  diseaseType:       string | null
+  weekOfYear:        number
+  predictedCases:    number
+  riskScore:         number
+  confidencePercent: number | null
+  modelVersion:      string | null
+}
+
+/**
+ * POST /api/ml/run/dengue — run the GBR dengue prediction via Spring Boot → Python FastAPI
+ * All params sent as query strings (@RequestParam on the Java side).
+ */
+export async function fetchDenguePrediction(params: {
+  city: string
+  weekOfYear: number
+  avgTempC: number
+  precipMm: number
+  humidityPct: number
+  ndviNe: number
+}): Promise<MlPredictionResult> {
+  return apiPost<MlPredictionResult>('/api/ml/run/dengue', {
+    city:        params.city,
+    weekOfYear:  params.weekOfYear,
+    avgTempC:    params.avgTempC,
+    precipMm:    params.precipMm,
+    humidityPct: params.humidityPct,
+    ndviNe:      params.ndviNe,
+  })
+}
+
+// ── West Nile ─────────────────────────────────────────────────────────────────
+
+export interface WnvAnnualRow {
+  id:            number
+  year:          number
+  reportedCases: number
+}
+
+export interface WnvHospRow {
+  id:                    number
+  year:                  number
+  neuroinvasiveCases:    number | null
+  nonNeuroinvasiveCases: number | null
+}
+
+/** GET /api/westnile/annual — all years (1999–2024) */
+export async function fetchWestNileAnnual(): Promise<WnvAnnualRow[]> {
+  return apiFetch<WnvAnnualRow[]>('/api/westnile/annual')
+}
+
+/** GET /api/westnile/hospitalizations — neuroinvasive vs non-neuroinvasive breakdown */
+export async function fetchWestNileHospitalizations(): Promise<WnvHospRow[]> {
+  return apiFetch<WnvHospRow[]>('/api/westnile/hospitalizations')
 }
