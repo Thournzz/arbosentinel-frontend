@@ -33,7 +33,7 @@ const AboutPage: React.FC = () => {
           fontFamily: 'var(--font-mono)', fontSize: '0.65rem',
           color: 'var(--teal-pulse)', letterSpacing: '0.2em', marginBottom: '0.75rem',
         }}>
-          DEVELOPED FOR
+          DEVELOPED IN SUPPORT OF
         </p>
 
         <h1 style={{
@@ -42,24 +42,21 @@ const AboutPage: React.FC = () => {
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
         }}>
-          Mosquito Control and Research Unit
+          Arboviral Disease Research
         </h1>
 
         <p style={{ color: 'var(--teal-pulse)', fontSize: '0.88rem', lineHeight: 1.8, marginBottom: '1.5rem' }}>
-          Department of Basic Medical Sciences · Faculty of Medical Sciences<br />
-          University of the West Indies, Mona<br />
-          <strong style={{ color: 'var(--cyber-cyan)' }}>
-            Director: Dr. Simone Laura Sandiford
-          </strong>
+          <strong style={{ color: 'var(--cyber-cyan)' }}>Dr. Simone Sandiford, PhD</strong><br />
+          Senior Lecturer · Pharmacology and Pharmacy Section<br />
+          Department of Basic Medical Sciences · University of the West Indies, Mona
         </p>
 
         <p style={{ fontSize: '0.87rem', color: 'var(--text-secondary)', lineHeight: 1.85, maxWidth: '720px' }}>
-          ArboSentinel was developed to support the surveillance and research
-          operations of the UWI MCRU — aggregating epidemiological data from
-          global public health agencies, applying machine-learning forecasting,
-          and surfacing actionable outbreak risk intelligence for the diseases
-          the unit actively investigates: Dengue, Zika, Chikungunya, Malaria,
-          and West Nile Virus.
+          ArboSentinel was developed to support arboviral disease surveillance
+          and research — aggregating epidemiological data from global public health
+          agencies, applying machine-learning forecasting, and surfacing actionable
+          outbreak risk intelligence for the diseases central to Dr. Sandiford's
+          research: Dengue, Zika, Chikungunya, Malaria, and West Nile Virus.
         </p>
       </div>
 
@@ -71,7 +68,7 @@ const AboutPage: React.FC = () => {
             🦟 Co-infection Research
           </h3>
           <p style={{ fontSize: '0.83rem', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
-            A central research focus of the MCRU is understanding co-infection
+            A central focus of Dr. Sandiford's research is understanding co-infection
             dynamics within <em>Aedes aegypti</em> — specifically whether a single
             vector can simultaneously carry and transmit Dengue (DENV),
             Zika (ZIKV), and Chikungunya (CHIKV).
@@ -87,18 +84,18 @@ const AboutPage: React.FC = () => {
 
         <div className="panel">
           <h3 style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>
-            🔬 Scope of the Unit
+            🔬 Research Scope
           </h3>
           <p style={{ fontSize: '0.83rem', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
-            The MCRU conducts field and laboratory investigations into
+            Dr. Sandiford's research spans field and laboratory investigations into
             mosquito-borne disease vectors across Jamaica and the wider Caribbean.
-            Its work spans molecular characterisation of local <em>Aedes</em> and
+            This work encompasses molecular characterisation of local <em>Aedes</em> and
             <em> Anopheles</em> populations, vector control strategy evaluation,
             and detection of newly introduced or range-expanding species.
           </p>
           <p style={{ fontSize: '0.83rem', color: 'var(--text-secondary)', lineHeight: 1.8, marginTop: '0.75rem' }}>
-            The unit's dual role — academic research and operational surveillance —
-            makes it a direct consumer of the kind of data intelligence
+            The intersection of academic research and applied epidemiological surveillance
+            makes this work a direct use case for the kind of data intelligence
             ArboSentinel is built to provide.
           </p>
         </div>
@@ -179,7 +176,7 @@ const AboutPage: React.FC = () => {
           ArboSentinel · Arboviral Pathogen Intelligence Platform<br />
           <span style={{ color: 'var(--teal-pulse)' }}>
             University of the West Indies, Mona ·
-            Mosquito Control and Research Unit
+            Pharmacology and Pharmacy Section · Faculty of Medical Sciences
           </span>
         </p>
       </div>
