@@ -149,7 +149,7 @@ const SurveillancePage: React.FC = () => {
                 dt.disease === 'west_nile'   ? 'var(--teal-pulse)' :
                                                'var(--purple-vibe)'
               }
-              sublabel={dt.latestYear ? `Latest data: ${dt.latestYear}` : 'ETL pending'}
+              sublabel={dt.totalCases > 0 && dt.latestYear ? `Latest data: ${dt.latestYear}` : 'ETL pending'}
             />
           ))}
         </div>

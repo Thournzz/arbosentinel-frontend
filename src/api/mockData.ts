@@ -167,7 +167,7 @@ export const mockDashboardStats: DashboardStats = {
   totalDiseasesTracked: 5,
   activeAlerts: 3,
   countriesMonitored: 67,
-  lastDataRefresh: '2026-04-28T06:00:00',
+  lastDataRefresh: '2026-05-12T06:00:00',
   diseaseTotals: [
     { disease: 'dengue',      totalCases: 5_200_000, latestYear: 2023 },
     { disease: 'malaria',     totalCases: 247_000_000, latestYear: 2023 },
