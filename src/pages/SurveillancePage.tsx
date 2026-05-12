@@ -18,22 +18,20 @@ import StatCard from '../components/standard/StatCard'
 import RiskGauge from '../components/mega/RiskGauge'
 import AlertBanner from '../components/mega/AlertBanner'
 import LoadingSpinner from '../components/standard/LoadingSpinner'
-import { fetchDashboardStats, fetchAlerts } from '../api/arboApi'
+import { fetchDashboardStats, fetchAlerts, fetchRiskScores } from '../api/arboApi'
 import {
   mockDashboardStats,
   mockRiskScores,
   mockAlerts,
 } from '../api/mockData'
-import type { DashboardStats, MrProgAlert } from '../api/mockData'
+import type { DashboardStats, MrProgAlert, RiskScore } from '../api/mockData'
 
 const SurveillancePage: React.FC = () => {
   // ── State ─────────────────────────────────────────────────────────────────
   const [stats,   setStats]   = useState<DashboardStats>(mockDashboardStats)
   const [alerts,  setAlerts]  = useState<MrProgAlert[]>(mockAlerts.filter(a => a.isActive))
+  const [scores,  setScores]  = useState<RiskScore[]>(mockRiskScores)
   const [loading, setLoading] = useState(true)
-
-  // Risk scores come from ML service — keep mock until ML ETL is seeded
-  const scores = mockRiskScores
 
   // ── Fetch on mount ────────────────────────────────────────────────────────
   useEffect(() => {
@@ -41,10 +39,11 @@ const SurveillancePage: React.FC = () => {
 
     async function load() {
       try {
-        // Run both fetches in parallel — Promise.all waits for both to finish
-        const [liveStats, liveAlerts] = await Promise.all([
+        // Run all three fetches in parallel
+        const [liveStats, liveAlerts, liveScores] = await Promise.all([
           fetchDashboardStats(),
           fetchAlerts(),
+          fetchRiskScores().catch(() => [] as RiskScore[]),
         ])
 
         if (cancelled) return   // Component unmounted, skip setState
@@ -53,6 +52,9 @@ const SurveillancePage: React.FC = () => {
         const activeCount = liveAlerts.filter(a => a.isActive).length
         setStats({ ...liveStats, activeAlerts: activeCount })
         setAlerts(liveAlerts.filter(a => a.isActive))
+
+        // Use live risk scores only if the scheduler has populated them
+        if (liveScores.length > 0) setScores(liveScores)
 
       } catch (err) {
         // Backend unreachable — silently keep mock data
@@ -87,8 +89,9 @@ const SurveillancePage: React.FC = () => {
           Global Pathogen Intelligence
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', maxWidth: '600px' }}>
-          Real-time surveillance data for mosquito-borne arboviruses. Data ingested from
-          CDC, WHO, DengAI, and Brazil SINAN. ML risk scores computed every 12 hours.
+          Surveillance intelligence for mosquito-borne arboviruses. Data sourced from
+          CDC, WHO, DengAI, and Brazil SINAN. ML forecasting via GradientBoostingRegressor
+          trained on historical epidemiological data.
         </p>
         <p style={{
           fontFamily: 'var(--font-mono)',

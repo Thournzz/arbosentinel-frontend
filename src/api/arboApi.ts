@@ -19,6 +19,7 @@ import type {
   DashboardStats,
   MrProgAlert,
   RiskLevel,
+  RiskScore,
 } from './mockData'
 
 // ── Raw Spring Boot DTO shapes ────────────────────────────────────────────────
@@ -277,4 +278,30 @@ export async function fetchWestNileAnnual(): Promise<WnvAnnualRow[]> {
 /** GET /api/westnile/hospitalizations — neuroinvasive vs non-neuroinvasive breakdown */
 export async function fetchWestNileHospitalizations(): Promise<WnvHospRow[]> {
   return apiFetch<WnvHospRow[]>('/api/westnile/hospitalizations')
+}
+
+// ── Risk Scores ───────────────────────────────────────────────────────────────
+
+interface ApiRiskScoreDto {
+  id:         number
+  diseaseType: string
+  riskScore:  number
+  riskLevel:  string
+  computedAt: string
+}
+
+function mapRiskScore(dto: ApiRiskScoreDto): RiskScore {
+  return {
+    id:          dto.id,
+    diseaseType: dto.diseaseType,
+    riskScore:   dto.riskScore,
+    riskLevel:   dto.riskLevel as RiskLevel,
+    computedAt:  dto.computedAt,
+  }
+}
+
+/** GET /api/risk — all active outbreak risk scores */
+export async function fetchRiskScores(): Promise<RiskScore[]> {
+  const dtos = await apiFetch<ApiRiskScoreDto[]>('/api/risk')
+  return dtos.map(mapRiskScore)
 }
