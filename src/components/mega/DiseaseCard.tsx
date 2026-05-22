@@ -120,6 +120,55 @@ const DiseaseCard: React.FC<DiseaseCardProps> = ({ disease }) => {
         {expanded ? '▲ SHOW LESS' : '▼ READ MORE'}
       </button>
 
+      {/* Clinical detail — only visible when expanded */}
+      {expanded && (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '0.5rem 1.25rem',
+            padding: '0.75rem',
+            background: 'rgba(0, 229, 255, 0.03)',
+            borderRadius: 'var(--radius-sm)',
+            border: '1px solid var(--border-dim)',
+          }}
+        >
+          {disease.pathogenFamily && (
+            <div>
+              <p className="section-label" style={{ marginBottom: '0.15rem' }}>Family</p>
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+                {disease.pathogenFamily}
+              </p>
+            </div>
+          )}
+          {disease.genomeType && (
+            <div>
+              <p className="section-label" style={{ marginBottom: '0.15rem' }}>Genome</p>
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+                {disease.genomeType}
+              </p>
+            </div>
+          )}
+          {(disease.incubationMinDays != null || disease.incubationMaxDays != null) && (
+            <div>
+              <p className="section-label" style={{ marginBottom: '0.15rem' }}>Incubation</p>
+              <p style={{ fontSize: '0.72rem', color: 'var(--teal-pulse)', fontFamily: 'var(--font-mono)' }}>
+                {disease.incubationMinDays ?? '?'}–{disease.incubationMaxDays ?? '?'} days
+              </p>
+            </div>
+          )}
+          {disease.firstIdentifiedYear && (
+            <div>
+              <p className="section-label" style={{ marginBottom: '0.15rem' }}>First Identified</p>
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+                {disease.firstIdentifiedYear}
+                {disease.firstIdentifiedLocation ? ` · ${disease.firstIdentifiedLocation}` : ''}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
       <hr className="divider" style={{ margin: '0.25rem 0' }} />
 
       {/* Stats row */}

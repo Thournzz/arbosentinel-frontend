@@ -29,6 +29,13 @@ export interface Disease {
   activeCasesGlobal: number
   affectedCountries: number
   icdCode: string
+  // Optional clinical detail — populated from live API, absent in mock
+  pathogenFamily?:          string | null
+  genomeType?:              string | null
+  incubationMinDays?:       number | null
+  incubationMaxDays?:       number | null
+  firstIdentifiedYear?:     number | null
+  firstIdentifiedLocation?: string | null
 }
 
 export interface DengueWeeklyStat {

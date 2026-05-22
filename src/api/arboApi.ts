@@ -122,6 +122,13 @@ function mapDisease(dto: ApiDiseaseDto): Disease {
     activeCasesGlobal: meta.activeCasesGlobal,
     affectedCountries: meta.affectedCountries,
     icdCode:          meta.icdCode,
+    // Clinical detail — shown in expanded card view
+    pathogenFamily:          dto.pathogenFamily,
+    genomeType:              dto.genomeType,
+    incubationMinDays:       dto.incubationMinDays,
+    incubationMaxDays:       dto.incubationMaxDays,
+    firstIdentifiedYear:     dto.firstIdentifiedYear,
+    firstIdentifiedLocation: dto.firstIdentifiedLocation,
   }
 }
 
