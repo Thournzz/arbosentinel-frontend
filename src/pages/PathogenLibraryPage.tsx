@@ -149,10 +149,10 @@ const PathogenLibraryPage: React.FC = () => {
         <p className="section-label">DATA SOURCES</p>
         <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' as const, marginTop: '0.5rem' }}>
           {[
-            { label: 'CDC',          desc: 'West Nile, Zika surveillance data' },
-            { label: 'WHO',          desc: 'Global malaria & arbovirus reports' },
-            { label: 'DengAI',       desc: 'Dengue forecasting competition dataset (San Juan + Iquitos)' },
-            { label: 'Brazil SINAN', desc: 'National arbovirus notification system (dengue/Zika/CHIKV)' },
+            { label: 'PAHO',   desc: 'Caribbean & Americas arboviral surveillance — primary regional source' },
+            { label: 'WHO',    desc: 'Global malaria & arbovirus reports' },
+            { label: 'CDC',    desc: 'West Nile, Zika surveillance data' },
+            { label: 'DengAI', desc: 'Dengue forecasting dataset — San Juan PR + Iquitos, Peru' },
           ].map(src => (
             <div key={src.label}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--teal-pulse)' }}>

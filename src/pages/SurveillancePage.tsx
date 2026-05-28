@@ -18,6 +18,7 @@ import StatCard from '../components/standard/StatCard'
 import RiskGauge from '../components/mega/RiskGauge'
 import AlertBanner from '../components/mega/AlertBanner'
 import LoadingSpinner from '../components/standard/LoadingSpinner'
+import DisclaimerBanner from '../components/standard/DisclaimerBanner'
 import { fetchDashboardStats, fetchAlerts, fetchRiskScores } from '../api/arboApi'
 import {
   mockDashboardStats,
@@ -86,12 +87,12 @@ const SurveillancePage: React.FC = () => {
       <div style={{ marginBottom: 'var(--space-xl)' }}>
         <p className="section-label">ARBOVIRAL SURVEILLANCE SYSTEM — LIVE DASHBOARD</p>
         <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>
-          Global Pathogen Intelligence
+          Caribbean & Regional Pathogen Intelligence
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', maxWidth: '600px' }}>
-          Surveillance intelligence for mosquito-borne arboviruses. Data sourced from
-          CDC, WHO, DengAI, and Brazil SINAN. ML forecasting via GradientBoostingRegressor
-          trained on historical epidemiological data.
+          Surveillance intelligence for mosquito-borne arboviruses across the Caribbean
+          and the Americas. Data sourced from PAHO, CDC, and WHO. ML forecasting via
+          GradientBoostingRegressor trained on regional epidemiological data.
         </p>
         <p style={{
           fontFamily: 'var(--font-mono)',
@@ -102,6 +103,9 @@ const SurveillancePage: React.FC = () => {
           LAST REFRESH: {new Date(stats.lastDataRefresh).toLocaleString()}
         </p>
       </div>
+
+      {/* ── Disclaimer ───────────────────────────────────────────────────── */}
+      <DisclaimerBanner variant="general" />
 
       {/* ── Hero stats row ────────────────────────────────────────────────── */}
       <div className="grid-4" style={{ marginBottom: 'var(--space-xl)' }}>
@@ -131,7 +135,7 @@ const SurveillancePage: React.FC = () => {
           value="ACTIVE"
           icon="🤖"
           accentColor="var(--purple-vibe)"
-          sublabel="GradientBoostingRegressor · DengAI"
+          sublabel="GradientBoostingRegressor · PAHO data"
         />
       </div>
 

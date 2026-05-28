@@ -167,15 +167,16 @@ const WestNilePage: React.FC = () => {
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div style={{ marginBottom: 'var(--space-xl)' }}>
-        <p className="section-label">WEST NILE VIRUS INTELLIGENCE CENTRE</p>
+        <p className="section-label">WEST NILE VIRUS — REGIONAL CONTEXT</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <h1 style={{ fontSize: '1.5rem' }}>West Nile Virus Surveillance</h1>
           <DiseaseTag disease="west_nile" size="md" />
         </div>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', maxWidth: '660px', marginTop: '0.5rem' }}>
-          Historic US surveillance data from the CDC (1999–2024). West Nile virus is the
+          Regional context data from CDC ArboNET (1999–2024). West Nile virus is the
           leading cause of mosquito-borne neurological disease in North America, transmitted
-          primarily by <em>Culex</em> mosquitoes. No approved human vaccine exists.
+          primarily by <em>Culex</em> mosquitoes. While not currently endemic in the Caribbean,
+          WNV is tracked here for regional epidemiological context. No approved human vaccine exists.
         </p>
       </div>
 

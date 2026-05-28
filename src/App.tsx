@@ -19,12 +19,13 @@ import SurveillancePage   from './pages/SurveillancePage'
 import PathogenLibraryPage from './pages/PathogenLibraryPage'
 import DenguePage         from './pages/DenguePage'
 import WestNilePage       from './pages/WestNilePage'
+import VectorsPage        from './pages/VectorsPage'
 import PharmacologyPage   from './pages/PharmacologyPage'
 import AboutPage          from './pages/AboutPage'
 import { mockAlerts }     from './api/mockData'
 
 // Page type — string literal union for type safety
-type Page = 'surveillance' | 'pathogens' | 'dengue' | 'westnile' | 'pharmacology' | 'about'
+type Page = 'surveillance' | 'pathogens' | 'vectors' | 'dengue' | 'westnile' | 'pharmacology' | 'about'
 
 const App: React.FC = () => {
   // currentPage drives which component is rendered
@@ -44,6 +45,7 @@ const App: React.FC = () => {
   const pageComponents: Record<Page, JSX.Element> = {
     surveillance: <SurveillancePage />,
     pathogens:    <PathogenLibraryPage />,
+    vectors:      <VectorsPage />,
     dengue:       <DenguePage />,
     westnile:     <WestNilePage />,
     pharmacology: <PharmacologyPage />,

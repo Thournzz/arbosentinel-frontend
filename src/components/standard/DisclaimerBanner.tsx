@@ -44,10 +44,11 @@ const DISCLAIMER_CONTENT: Record<DisclaimerVariant, { icon: string; heading: str
     icon: '🛡',
     heading: 'Surveillance & Research Tool',
     body:
-      'ArboSentinel is a public health surveillance and research intelligence platform. ' +
-      'It is not a clinical diagnostic tool, prescribing aid, or substitute for professional ' +
-      'public health or medical judgment. Data is sourced from CDC, WHO, DengAI, and Brazil SINAN ' +
-      'and is intended for research, monitoring, and epidemiological awareness purposes only.',
+      'ArboSentinel is a public health surveillance and research intelligence platform for the ' +
+      'Caribbean region and the Americas. It is not a clinical diagnostic tool, prescribing aid, ' +
+      'or substitute for professional public health or medical judgment. Data is sourced from PAHO, ' +
+      'CDC, and WHO and is intended for research, monitoring, and epidemiological awareness purposes only. ' +
+      'For clinical decisions and outbreak response, consult qualified public health authorities.',
   },
 }
 

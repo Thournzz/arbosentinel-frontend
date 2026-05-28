@@ -87,14 +87,22 @@ type DiseaseMeta = {
   activeCasesGlobal: number
   affectedCountries: number
   pathogenType: 'virus' | 'parasite' | 'bacteria'
+  // Clinical detail — biological constants, hardcoded so READ MORE always works
+  // regardless of API availability or Vercel deployment timing
+  pathogenFamily: string
+  genomeType: string
+  incubationMinDays: number
+  incubationMaxDays: number
+  firstIdentifiedYear: number
+  firstIdentifiedLocation: string
 }
 
 const DISEASE_META: Record<string, DiseaseMeta> = {
-  dengue:       { icdCode: 'A90',      riskLevel: 'high',     activeCasesGlobal: 5_200_000,   affectedCountries: 129, pathogenType: 'virus'    },
-  malaria:      { icdCode: 'B50-B54',  riskLevel: 'critical', activeCasesGlobal: 247_000_000, affectedCountries: 84,  pathogenType: 'parasite' },
-  zika:         { icdCode: 'A92.5',    riskLevel: 'moderate', activeCasesGlobal: 89_000,      affectedCountries: 89,  pathogenType: 'virus'    },
-  west_nile:    { icdCode: 'A92.3',    riskLevel: 'moderate', activeCasesGlobal: 2_400,       affectedCountries: 67,  pathogenType: 'virus'    },
-  chikungunya:  { icdCode: 'A92.0',    riskLevel: 'moderate', activeCasesGlobal: 430_000,     affectedCountries: 115, pathogenType: 'virus'    },
+  dengue:      { icdCode: 'A90',     riskLevel: 'high',     activeCasesGlobal: 5_200_000,   affectedCountries: 129, pathogenType: 'virus',    pathogenFamily: 'Flaviviridae',  genomeType: 'Positive-sense ssRNA',           incubationMinDays: 4, incubationMaxDays: 10, firstIdentifiedYear: 1779, firstIdentifiedLocation: 'Asia'                        },
+  malaria:     { icdCode: 'B50-B54', riskLevel: 'critical', activeCasesGlobal: 247_000_000, affectedCountries: 84,  pathogenType: 'parasite', pathogenFamily: 'Plasmodiidae',  genomeType: 'DNA (nuclear and mitochondrial)', incubationMinDays: 7, incubationMaxDays: 30, firstIdentifiedYear: 1880, firstIdentifiedLocation: 'Africa/Asia'                 },
+  zika:        { icdCode: 'A92.5',   riskLevel: 'moderate', activeCasesGlobal: 89_000,      affectedCountries: 89,  pathogenType: 'virus',    pathogenFamily: 'Flaviviridae',  genomeType: 'Positive-sense ssRNA',           incubationMinDays: 3, incubationMaxDays: 14, firstIdentifiedYear: 1947, firstIdentifiedLocation: 'Uganda (Zika Forest)'        },
+  west_nile:   { icdCode: 'A92.3',   riskLevel: 'moderate', activeCasesGlobal: 2_400,       affectedCountries: 67,  pathogenType: 'virus',    pathogenFamily: 'Flaviviridae',  genomeType: 'Positive-sense ssRNA',           incubationMinDays: 2, incubationMaxDays: 14, firstIdentifiedYear: 1937, firstIdentifiedLocation: 'Uganda (West Nile district)' },
+  chikungunya: { icdCode: 'A92.0',   riskLevel: 'moderate', activeCasesGlobal: 430_000,     affectedCountries: 115, pathogenType: 'virus',    pathogenFamily: 'Togaviridae',   genomeType: 'Positive-sense ssRNA',           incubationMinDays: 1, incubationMaxDays: 12, firstIdentifiedYear: 1952, firstIdentifiedLocation: 'Tanzania (Makonde Plateau)'  },
 }
 
 // ── Mappers ───────────────────────────────────────────────────────────────────
@@ -122,13 +130,14 @@ function mapDisease(dto: ApiDiseaseDto): Disease {
     activeCasesGlobal: meta.activeCasesGlobal,
     affectedCountries: meta.affectedCountries,
     icdCode:          meta.icdCode,
-    // Clinical detail — shown in expanded card view
-    pathogenFamily:          dto.pathogenFamily,
-    genomeType:              dto.genomeType,
-    incubationMinDays:       dto.incubationMinDays,
-    incubationMaxDays:       dto.incubationMaxDays,
-    firstIdentifiedYear:     dto.firstIdentifiedYear,
-    firstIdentifiedLocation: dto.firstIdentifiedLocation,
+    // Clinical detail — meta is primary source (always correct biological constants)
+    // API value used as fallback only
+    pathogenFamily:          meta.pathogenFamily          || dto.pathogenFamily,
+    genomeType:              meta.genomeType               || dto.genomeType,
+    incubationMinDays:       meta.incubationMinDays        ?? dto.incubationMinDays,
+    incubationMaxDays:       meta.incubationMaxDays        ?? dto.incubationMaxDays,
+    firstIdentifiedYear:     meta.firstIdentifiedYear      ?? dto.firstIdentifiedYear,
+    firstIdentifiedLocation: meta.firstIdentifiedLocation  || dto.firstIdentifiedLocation,
   }
 }
 
