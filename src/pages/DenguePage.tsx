@@ -109,7 +109,7 @@ const BarChart: React.FC<BarChartProps> = ({
 // ── Main page ─────────────────────────────────────────────────────────────────
 const DenguePage: React.FC = () => {
   // ML prediction form state — each field maps to a backend @RequestParam
-  const [city,          setCity]         = useState<'sj' | 'iq'>('sj')
+  const [city,          setCity]         = useState<'sj'>('sj')
   const [weekOfYear,    setWeekOfYear]   = useState(30)
   const [avgTemp,       setAvgTemp]      = useState(28.5)
   const [precip,        setPrecip]       = useState(45.0)
@@ -135,7 +135,7 @@ const DenguePage: React.FC = () => {
       })
       setPrediction(result)
     } catch (err) {
-      setPredError('Prediction service unavailable — check ML microservice status.')
+      setPredError('ML service is starting up — Railway may be waking from standby. Wait 30 seconds and try again.')
       console.error('[ArboSentinel] ML prediction failed:', err)
     } finally {
       setIsLoading(false)
@@ -162,7 +162,7 @@ const DenguePage: React.FC = () => {
           <DiseaseTag disease="dengue" size="md" />
         </div>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', maxWidth: '600px', marginTop: '0.5rem' }}>
-          ML-powered dengue case prediction for San Juan, PR (sj) and Iquitos, Peru (iq).
+          ML-powered dengue case prediction for San Juan, Puerto Rico — Caribbean region.
           Data: DengAI competition dataset (CDC/NOAA). Model: GradientBoostingRegressor.
         </p>
       </div>
@@ -172,7 +172,7 @@ const DenguePage: React.FC = () => {
         {[
           { label: 'Weekly Cases (SJ 2008 season)', value: totalCases.toLocaleString(), unit: 'total', color: 'var(--risk-high)' },
           { label: 'Peak Week', value: `Week ${peakWeek?.label ?? '-'}`, unit: `${peakWeek?.value ?? 0} cases`, color: 'var(--risk-critical)' },
-          { label: 'Cities in Dataset', value: '2', unit: 'San Juan · Iquitos', color: 'var(--cyber-cyan)' },
+          { label: 'Location', value: 'San Juan', unit: 'Puerto Rico · Caribbean', color: 'var(--cyber-cyan)' },
         ].map(s => (
           <div key={s.label} className="panel" style={{ borderTop: `2px solid ${s.color}` }}>
             <p className="section-label">{s.label}</p>
@@ -218,7 +218,7 @@ const DenguePage: React.FC = () => {
             <p className="section-label">City</p>
             <select
               value={city}
-              onChange={e => setCity(e.target.value as 'sj' | 'iq')}
+              onChange={e => setCity(e.target.value as 'sj')}
               style={{
                 width: '100%',
                 background: 'var(--void)',
@@ -230,8 +230,7 @@ const DenguePage: React.FC = () => {
                 fontSize: '0.8rem',
               }}
             >
-              <option value="sj">sj — San Juan, PR</option>
-              <option value="iq">iq — Iquitos, Peru</option>
+              <option value="sj">San Juan, Puerto Rico</option>
             </select>
           </div>
 
@@ -333,7 +332,7 @@ const DenguePage: React.FC = () => {
                 {prediction.predictedCases}
               </span>
               <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-                predicted cases — week {weekOfYear}, {city === 'sj' ? 'San Juan' : 'Iquitos'}
+                predicted cases — week {weekOfYear}, San Juan, Puerto Rico
               </span>
             </div>
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.75rem', flexWrap: 'wrap' as const }}>
