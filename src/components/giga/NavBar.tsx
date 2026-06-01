@@ -160,7 +160,7 @@ const NavBar: React.FC<NavBarProps> = ({ currentPage, onNavigate }) => {
                 letterSpacing: '0.15em',
               }}
             >
-              ARBOVIRAL INTELLIGENCE
+              CARIBBEAN INTELLIGENCE
             </div>
           </div>
         </button>
